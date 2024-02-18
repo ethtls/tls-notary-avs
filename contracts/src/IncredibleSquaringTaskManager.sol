@@ -81,13 +81,13 @@ contract IncredibleSquaringTaskManager is
     /* FUNCTIONS */
     // NOTE: this function creates new task, assigns it a taskId
     function createNewTask(
-        uint256 numberToBeSquared,
+        TLSNReq calldata tlsnReq,
         uint32 quorumThresholdPercentage,
         bytes calldata quorumNumbers
     ) external onlyTaskGenerator {
         // create a new task struct
         Task memory newTask;
-        newTask.numberToBeSquared = numberToBeSquared;
+        newTask.tlsnReq = tlsnReq;
         newTask.taskCreatedBlock = uint32(block.number);
         newTask.quorumThresholdPercentage = quorumThresholdPercentage;
         newTask.quorumNumbers = quorumNumbers;
@@ -180,7 +180,6 @@ contract IncredibleSquaringTaskManager is
         BN254.G1Point[] memory pubkeysOfNonSigningOperators
     ) external {
         uint32 referenceTaskIndex = taskResponse.referenceTaskIndex;
-        uint256 numberToBeSquared = task.numberToBeSquared;
         // some logical checks
         require(
             allTaskResponses[referenceTaskIndex] != bytes32(0),
@@ -203,6 +202,7 @@ contract IncredibleSquaringTaskManager is
             "The challenge period for this task has already expired."
         );
 
+        /*
         // logic for checking whether challenge is valid or not
         uint256 actualSquaredOutput = numberToBeSquared * numberToBeSquared;
         bool isResponseCorrect = (actualSquaredOutput ==
@@ -213,6 +213,7 @@ contract IncredibleSquaringTaskManager is
             emit TaskChallengedUnsuccessfully(referenceTaskIndex, msg.sender);
             return;
         }
+        */
 
         // get the list of hash of pubkeys of operators who weren't part of the task response submitted by the aggregator
         bytes32[] memory hashesOfPubkeysOfNonSigningOperators = new bytes32[](
