@@ -1,4 +1,4 @@
-# Incredible Squaring AVS
+# Notary AVS
 
 <b> Do not use it in Production, testnet only. </b>
 
